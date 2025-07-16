@@ -1,8 +1,8 @@
 'use strict';
-const tracker = require('./src/tracker');
+const download = require('./src/downloads');
 const torrentParser = require('./src/torrent-parser');
 
-const torrent = torrentParser.open('movie.torrent');
+const torrent = torrentParser.open(process.argv[2]);
 
 const infoHash = torrentParser.infoHash(torrent);
 console.log('Info Hash:', infoHash.toString('hex'));
@@ -15,6 +15,4 @@ const size = torrent.info.files
 const sizeInMB = (size / (1024 * 1024)).toFixed(2);
 console.log(`Total Size: ${size} bytes (${sizeInMB} MB)`);
 
-tracker.getPeers(torrent, (peers) => {
-  console.log('List of peers found:', peers);
-});
+download(torrent);
